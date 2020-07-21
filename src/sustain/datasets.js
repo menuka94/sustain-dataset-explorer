@@ -25,9 +25,9 @@ export const census_resolution = [
 ];
 
 export const census_decades = [
-        {'id': '1980', 'value': 1980},
-        {'id': '1990', 'value': 1990},
+        {'id': '2010', 'value': 2010},
         {'id': '2000', 'value': 2000},
-        {'id': '2010', 'value': 2010}
+        {'id': '1990', 'value': 1990},
+        {'id': '1980', 'value': 1980}
     ]
 ;

@@ -6,74 +6,91 @@ export class CensusFeatureSelector extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            censusFeature: 'Total Population',
-            censusDecade: '2010',
-            censusResolution: 'County'
+            censusProperties: {
+                censusFeature: 'Total Population',
+                censusDecade: '2010',
+                censusResolution: 'County'
+            }
         };
-        this.setCensusFeature = this.setCensusFeature.bind(this);
-        this.setCensusDecade = this.setCensusDecade.bind(this);
-        this.setCensusResolution = this.setCensusResolution.bind(this);
+        this.handleSelectCensusFeature = this.handleSelectCensusFeature.bind(this);
+        this.handleSetCensusDecade = this.handleSetCensusDecade.bind(this);
+        this.handleSetCensusResolution = this.handleSetCensusResolution.bind(this);
+        this.updateQueryConstructor();
     }
 
-    setCensusFeature(e) {
-        console.log('setCensusFeature:', e.target.value);
-        this.setState({
-            censusFeature: e.target.value
-        });
+    updateQueryConstructor() {
+        this.props.updateProperties('Census', this.state.censusProperties);
     }
 
-    setCensusDecade(e) {
+    handleSelectCensusFeature(e) {
+        let censusProperties = {...this.state.censusProperties};
+        censusProperties.censusFeature = e.target.value;
         this.setState({
-            censusDecade: e.target.value
+            censusProperties: censusProperties
         });
+
+        this.updateQueryConstructor();
     }
 
-    setCensusResolution(e) {
+    handleSetCensusDecade(e) {
+        let censusProperties = {...this.state.censusProperties};
+        censusProperties.censusDecade = e.target.value;
         this.setState({
-            censusResolution: e.target.value
+            censusProperties: censusProperties
         });
+
+        this.updateQueryConstructor();
+    }
+
+    handleSetCensusResolution(e) {
+        let censusProperties = {...this.state.censusProperties};
+        censusProperties.censusResolution = e.target.value;
+        this.setState({
+            censusProperties: censusProperties
+        });
+
+        this.updateQueryConstructor();
     }
 
     render() {
-        console.log(this.state);
         return (
-                <Form.Group>
-                    <Row>
-                        <Col className="col-6">
-                            <Form.Label>Feature</Form.Label>
-                            <Form.Control as="select"
-                                          onChange={this.setCensusFeature}
-                                value={this.state.censusFeature}
-                            >
-                                {census_features.map(item => {
-                                    return <option key={item.id}>{item.value}</option>
-                                })}
-                            </Form.Control>
-                        </Col>
-                        <Col className="col-3">
-                            <Form.Label>Decade</Form.Label>
-                            <Form.Control as="select"
-                                          onChange={(e) => this.setCensusDecade(e)}
-                                value={this.state.censusDecade}
-                            >
-                                {census_decades.map(item => {
-                                    return <option key={item.id}>{item.value}</option>
-                                })}
-                            </Form.Control>
-                        </Col>
-                        <Col className="col-3">
-                            <Form.Label>Resolution</Form.Label>
-                            <Form.Control as="select"
-                                          onChange={this.setCensusResolution}
-                                value={this.state.censusResolution}
-                            >
-                                {census_resolution.map(item => {
-                                    return <option key={item.id}>{item.value}</option>
-                                })}
-                            </Form.Control>
-                        </Col>
-                    </Row>
-                </Form.Group>
+            <Form.Group>
+                <Row>
+                    <Col className="col-6">
+                        <Form.Label>Feature</Form.Label>
+                        <Form.Control as="select"
+                                      onChange={this.handleSelectCensusFeature}
+                                      value={this.state.censusProperties["censusFeature"]}
+                        >
+                            {census_features.map(item => {
+                                return <option key={item.id}>{item.value}</option>
+                            })}
+                        </Form.Control>
+                    </Col>
+                    <Col className="col-3">
+                        <Form.Label>Decade</Form.Label>
+                        <Form.Control as="select"
+                                      onChange={(e) => this.handleSetCensusDecade(e)}
+                                      value={this.state.censusProperties["censusDecade"]}
+                        >
+                            {census_decades.map(item => {
+                                return <option key={item.id}>{item.value}</option>
+                            })}
+                        </Form.Control>
+                    </Col>
+                    <Col className="col-3">
+                        <Form.Label>Resolution</Form.Label>
+                        <Form.Control as="select"
+                                      onChange={this.handleSetCensusResolution}
+                                      value={this.state.censusProperties["censusResolution"]}
+                        >
+                            {census_resolution.map(item => {
+                                return <option key={item.id}>{item.value}</option>
+                            })}
+                        </Form.Control>
+                    </Col>
+                </Row>
+            </Form.Group>
         );
     }
 }
