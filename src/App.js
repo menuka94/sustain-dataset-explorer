@@ -1,10 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import BootstrapSamples from "./bootstrap-samples";
+import Main from "./sustain/main";
+
 
 function App() {
     return (
-        <BootstrapSamples/>
+        <Main/>
     );
 }
 
