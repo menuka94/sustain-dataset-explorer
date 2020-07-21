@@ -23,7 +23,6 @@ export class QueryConstructor extends React.Component {
     }
 
     handleChange(e) {
-        console.log("handleChange()");
         this.setState({
             selectValue: e.target.value
         });
@@ -34,21 +33,17 @@ export class QueryConstructor extends React.Component {
     }
 
     render() {
-        const isCensus = this.state.selectValue === 'Census';
-
-        let censusFeatureSelector;
-        if (isCensus) {
-            censusFeatureSelector = (
-                <CensusFeatureSelector/>
-            );
+        let featureSelector;
+        if (this.state.selectValue === 'Census') {
+            featureSelector = <CensusFeatureSelector/>;
         } else {
-            censusFeatureSelector = '';
+            featureSelector = '';
         }
 
         return (
             <Jumbotron>
                 <Row>
-                    <Col className="col-5">
+                    <Col className="col-6">
                         <h3>Construct Query</h3>
                         <Form>
                             <Form.Group>
@@ -62,12 +57,13 @@ export class QueryConstructor extends React.Component {
                                     })}
                                 </Form.Control>
                             </Form.Group>
-                            {censusFeatureSelector}
+                            {featureSelector}
                         </Form>
                     </Col>
-                    <Col className="col-7">
+                    <Col className="col-6">
                         <h3>Query Pipeline</h3>
                         <Query name="Census"
+                               addQuery={this.addQuery}
                             // details={JSON.stringify({'decade': '2010', 'feature': 'Total Population'})}
                         />
                     </Col>
