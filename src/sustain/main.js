@@ -1,18 +1,25 @@
 import React from 'react';
 
-import {Container} from 'react-bootstrap';
+import {Container, Row, Col} from 'react-bootstrap';
 import {MainNavbar} from "./navbar";
 import {QueryConstructor} from "./query-constructor";
 import {LeafletMap} from "../leaflet-map";
 
 const Main = () => (
-    <div>
-        <Container className="p-1">
+    <>
+        <Container fluid>
             <MainNavbar/>
-            <QueryConstructor/>
-            <LeafletMap/>
+            <Row>
+                <Col className="col-lg-3">
+                    <QueryConstructor/>
+                </Col>
+                {/*<Col className="col-lg-9">*/}
+                    <Col >
+                    <LeafletMap/>
+                </Col>
+            </Row>
         </Container>
-    </div>
+    </>
 );
 
 export default Main;

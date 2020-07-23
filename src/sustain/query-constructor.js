@@ -1,6 +1,6 @@
 import React from "react";
 import {datasets} from './datasets';
-import {Jumbotron, Form, Row, Col, Button} from "react-bootstrap";
+import {Jumbotron, Form, Row, Col, Button, Nav} from "react-bootstrap";
 import {CensusFeatureSelector} from "./census-feature-selector";
 import {Query} from "./query";
 
@@ -101,33 +101,39 @@ export class QueryConstructor extends React.Component {
         }
 
         return (
-            <Jumbotron>
-                <Row>
-                    <Col className="col-6">
-                        <h3>Construct Query</h3>
-                        <Form>
-                            <Form.Group>
-                                <Form.Label>Select Dataset</Form.Label>
-                                <Form.Control as="select"
-                                              onChange={this.handleSelectDataset}
-                                              value={this.state.selectValue}
-                                >
-                                    {datasets.map(item => {
-                                        return <option key={item.id}>{item.value}</option>
-                                    })}
-                                </Form.Control>
-                            </Form.Group>
-                            {featureSelectorElement}
-                        </Form>
-                        <br/>
-                        <Button onClick={this.addQuery}>Add</Button>
-                    </Col>
-                    <Col className="col-6">
-                        <h3>Query Pipeline</h3>
-                        {queriesElement}
-                    </Col>
-                </Row>
-            </Jumbotron>
+            <>
+                <Jumbotron>
+                    <Row>
+                        <Col>
+                            <h3>Construct Query</h3>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Label>Select Dataset</Form.Label>
+                                    <Form.Control as="select"
+                                                  onChange={this.handleSelectDataset}
+                                                  value={this.state.selectValue}
+                                    >
+                                        {datasets.map(item => {
+                                            return <option key={item.id}>{item.value}</option>
+                                        })}
+                                    </Form.Control>
+                                </Form.Group>
+                                {featureSelectorElement}
+                            </Form>
+                            <br/>
+                            <Button onClick={this.addQuery}>Add</Button>
+                        </Col>
+                    </Row>
+                    <br/>
+                    <hr/>
+                    <Row>
+                        <Col className="col-3">
+                            <h3>Query Pipeline</h3>
+                            {queriesElement}
+                        </Col>
+                    </Row>
+                </Jumbotron>
+            </>
         );
     }
 }
