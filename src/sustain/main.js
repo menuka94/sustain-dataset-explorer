@@ -17,8 +17,8 @@ const Main = () => (
                 </Col>
                 {/*<Col className="col-lg-9">*/}
                 <Col>
-                    {/*<HospitalsMap/>*/}
-                    <PowerStationsMap/>
+                    <HospitalsMap/>
+                    {/*<PowerStationsMap/>*/}
                 </Col>
             </Row>
         </Container>
