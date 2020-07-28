@@ -3,7 +3,9 @@ import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import {MainNavbar} from "./navbar";
 import {QueryConstructor} from "./query-constructor";
-import {LeafletMap} from "../leaflet-map";
+// import {PowerStationsMap} from "./power-stations-map";
+import {HospitalsMap} from "./hospitals-map";
+import {PowerStationsMap} from "./power-stations-map";
 
 const Main = () => (
     <>
@@ -14,8 +16,9 @@ const Main = () => (
                     <QueryConstructor/>
                 </Col>
                 {/*<Col className="col-lg-9">*/}
-                    <Col >
-                    <LeafletMap/>
+                <Col>
+                    {/*<HospitalsMap/>*/}
+                    <PowerStationsMap/>
                 </Col>
             </Row>
         </Container>
