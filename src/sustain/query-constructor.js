@@ -42,16 +42,17 @@ export class QueryConstructor extends React.Component {
 
             }
         } else {
+            // TODO: support adding properties for datasets other than Census
             this.setState({
                 datasetProperties: ''
             });
         }
 
-        const queries = [...this.state.queries];
-        const newKey = Math.random();
+        const queries = [...this.state.queries];    // get all existing queries
+        const newKey = Math.random();   // key for the new query
         let newQueryElement = <Query name={this.state.selectedDataset}
-                                     key={newKey}
-                                     id={newKey}
+                                     key={newKey}   // not a prop, but required for rendering the element
+                                     id={newKey}    // prop
                                      details={JSON.stringify(this.state.datasetProperties)}
                                      onClickRemove={this.removeQuery}
         />

@@ -7,16 +7,16 @@ export class Query extends React.Component {
     }
 
     render() {
-        console.log('props:', this.props);
+        console.log('query.js - props:', this.props);
         return (
             <div>
-                <Card style={{width: '18rem'}}>
+                <Card style={{width: '16rem'}}>
                     <Card.Body>
                         <Card.Title>{this.props.name}</Card.Title>
                         <Card.Text>
                             {/*{this.props.details}*/}
                             <Button className="btn-sm btn-danger"
-                                    // onClick={this.props.onClickRemove(this.props.id)}
+                                    onClick={() => this.props.onClickRemove(this.props.id)}
                             >Remove</Button>
                         </Card.Text>
                     </Card.Body>

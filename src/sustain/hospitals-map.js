@@ -5,6 +5,7 @@ import {Map, TileLayer, Marker, Popup} from "react-leaflet";
 import * as hospitalData from "../resources/data/hospitals.json";
 import {PowerStationsMap} from "./power-stations-map";
 import {makeGeoJson} from "./grpc-querier";
+import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 
 export const HospitalsMap = () => {
     const [activeHospital, setActiveHospital] = React.useState(null);
@@ -55,6 +56,7 @@ export const HospitalsMap = () => {
             </Popup>}
 
             <PowerStationsMap/>
+            <NaturalGasPipelinesMap/>
         </Map>
     );
 }
