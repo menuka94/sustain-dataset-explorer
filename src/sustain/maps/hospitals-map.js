@@ -1,11 +1,8 @@
 import React from "react";
-import '../App.css';
+import '../../App.css';
 import {Icon} from "leaflet";
-import {Map, TileLayer, Marker, Popup} from "react-leaflet";
-import * as hospitalData from "../resources/data/hospitals.json";
-import {PowerStationsMap} from "./power-stations-map";
-import {makeGeoJson} from "./grpc-querier";
-import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
+import {TileLayer, Marker, Popup} from "react-leaflet";
+import * as hospitalData from "../../resources/data/hospitals.json";
 
 export const HospitalsMap = () => {
     const [activeHospital, setActiveHospital] = React.useState(null);
@@ -13,17 +10,9 @@ export const HospitalsMap = () => {
         iconUrl: 'healthcare-icon.png',
         iconSize: [25, 25]
     });
-    let mapRef = React.createRef();
 
     return (
-        <Map center={[42.2, -71.7]} zoom={8}
-             onZoom={() => {
-                 const bounds = mapRef.current.leafletElement.getBounds();
-                 const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
-                 console.log(geoJson);
-             }}
-             ref={mapRef}
-        >
+        <div>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -54,9 +43,6 @@ export const HospitalsMap = () => {
                     <h6>{activeHospital.properties.ADDRESS}, {activeHospital.properties.CITY}, {activeHospital.properties.STATE}</h6>
                 </div>
             </Popup>}
-
-            <PowerStationsMap/>
-            <NaturalGasPipelinesMap/>
-        </Map>
+        </div>
     );
 }

@@ -1,8 +1,8 @@
 import React from "react";
-import '../App.css';
+import '../../App.css';
 import {Icon} from "leaflet";
 import {Map, TileLayer, Marker, Popup} from "react-leaflet";
-import * as powerStationsData from "../resources/data/power_plants.json";
+import * as powerStationsData from "../../resources/data/power_plants.json";
 
 export const PowerStationsMap = () => {
     const [activePowerStation, setActivePowerStation] = React.useState(null);
