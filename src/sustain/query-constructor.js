@@ -1,6 +1,6 @@
 import React from "react";
 import {datasets} from './datasets';
-import {Jumbotron, Form, Row, Col, Button, Nav} from "react-bootstrap";
+import {Jumbotron, Form, Row, Col, Button} from "react-bootstrap";
 import {CensusFeatureSelector} from "./census-feature-selector";
 import {Query} from "./query";
 
@@ -24,8 +24,17 @@ export class QueryConstructor extends React.Component {
     }
 
     handleSelectDataset(e) {
+        const rawValue = e.target.value;
+        let selectedDataset = '';
+        if (rawValue === 'Census') {
+            selectedDataset = 'census';
+        } else if (rawValue === 'Natural Gas Pipelines') {
+            selectedDataset = 'natural_gas_pipelines';
+        } else if (rawValue === 'Hospitals') {
+            selectedDataset = 'hospitals';
+        }
         this.setState({
-            selectedDataset: e.target.value
+            selectedDataset
         });
     }
 
@@ -48,6 +57,8 @@ export class QueryConstructor extends React.Component {
             });
         }
 
+        this.props.addActiveDataset(this.state.selectedDataset);
+
         const queries = [...this.state.queries];    // get all existing queries
         const newKey = Math.random();   // key for the new query
         let newQueryElement = <Query name={this.state.selectedDataset}
@@ -56,19 +67,24 @@ export class QueryConstructor extends React.Component {
                                      details={JSON.stringify(this.state.datasetProperties)}
                                      onClickRemove={this.removeQuery}
         />
-        let newQuery = {'id': newKey, 'element': newQueryElement};
+        let newQuery = {
+            'id': newKey,
+            'name': this.state.selectedDataset,
+            'element': newQueryElement
+        };
         queries.push(newQuery);
         this.setState({
             queries: queries
         });
     }
 
-    removeQuery(key) {
+    removeQuery(id, name) {
         const queries = [...this.state.queries];
-        const updatedQueries = queries.filter(x => x.id !== key);
+        const updatedQueries = queries.filter(x => x.id !== id);
         this.setState({
             queries: updatedQueries
         });
+        this.props.removeActiveDataset(name);
     }
 
     updateProperties(dataset, properties) {
@@ -102,7 +118,7 @@ export class QueryConstructor extends React.Component {
         }
 
         return (
-            <>
+            <div>
                 <Jumbotron>
                     <Row>
                         <Col>
@@ -134,7 +150,7 @@ export class QueryConstructor extends React.Component {
                         </Col>
                     </Row>
                 </Jumbotron>
-            </>
+            </div>
         );
     }
 }
