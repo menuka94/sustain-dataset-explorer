@@ -17,20 +17,24 @@ export default class Main extends React.Component {
 
     addActiveDataset(dataset) {
         const activeDatasets = [...this.state.activeDatasets];
-        activeDatasets.push(dataset.toLowerCase());
+        activeDatasets.push(dataset);
         this.setState({
             activeDatasets: activeDatasets
         });
     }
 
     removeActiveDataset(dataset) {
-        console.log('removeActiveDataset:', dataset.toLowerCase());
-        const activeDatasets = [...this.state.activeDatasets];
-        const updatedActiveDatasets = activeDatasets.map(item => item !== dataset.toLowerCase());
+        // console.log('removeActiveDataset:', dataset);
+        let activeDatasets = [...this.state.activeDatasets];
+        const index = activeDatasets.indexOf(dataset);
+        if (index > -1) {
+            activeDatasets.splice(index, 1);
+        }
+
+        // console.log('updatedActiveDatasets:', activeDatasets);
         this.setState({
-            activeDatasets: updatedActiveDatasets
+            activeDatasets: activeDatasets
         });
-        console.log('after removing:', this.state.activeDatasets);
     }
 
     render() {

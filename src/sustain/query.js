@@ -16,7 +16,7 @@ export class Query extends React.Component {
                         <Card.Text>
                             {/*{this.props.details}*/}
                             <Button className="btn-sm btn-danger"
-                                    onClick={() => this.props.onClickRemove(this.props.id, this.props.name)}
+                                    onClick={() => this.props.onClickRemove(this.props.id)}
                             >Remove</Button>
                         </Card.Text>
                     </Card.Body>

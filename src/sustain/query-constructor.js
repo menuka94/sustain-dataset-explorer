@@ -25,21 +25,14 @@ export class QueryConstructor extends React.Component {
 
     handleSelectDataset(e) {
         const rawValue = e.target.value;
-        let selectedDataset = '';
-        if (rawValue === 'Census') {
-            selectedDataset = 'census';
-        } else if (rawValue === 'Natural Gas Pipelines') {
-            selectedDataset = 'natural_gas_pipelines';
-        } else if (rawValue === 'Hospitals') {
-            selectedDataset = 'hospitals';
-        }
+        let selectedDataset = datasets.find(x => x.value === rawValue);
         this.setState({
             selectedDataset
         });
     }
 
     addQuery() {
-        if (this.state.selectedDataset === 'Census') {
+        if (this.state.selectedDataset.id === 'census') {
             if (this.state.censusProperties.censusDecade === '' ||
                 this.state.censusProperties.censusFeature === '' ||
                 this.state.censusProperties.censusResolution === '') {
@@ -57,13 +50,13 @@ export class QueryConstructor extends React.Component {
             });
         }
 
-        this.props.addActiveDataset(this.state.selectedDataset);
+        this.props.addActiveDataset(this.state.selectedDataset.id);
 
         const queries = [...this.state.queries];    // get all existing queries
         const newKey = Math.random();   // key for the new query
-        let newQueryElement = <Query name={this.state.selectedDataset}
-                                     key={newKey}   // not a prop, but required for rendering the element
-                                     id={newKey}    // prop
+        let newQueryElement = <Query name={this.state.selectedDataset.value}
+                                     key={this.state.selectedDataset.id}   // not a prop, but required for rendering the element
+                                     id={this.state.selectedDataset.id}    // prop
                                      details={JSON.stringify(this.state.datasetProperties)}
                                      onClickRemove={this.removeQuery}
         />
@@ -78,13 +71,15 @@ export class QueryConstructor extends React.Component {
         });
     }
 
-    removeQuery(id, name) {
+    removeQuery(id) {
+        console.log('removeQuery:', id);
         const queries = [...this.state.queries];
-        const updatedQueries = queries.filter(x => x.id !== id);
+        console.log('queries:', queries);
+        const updatedQueries = queries.filter(x => x.element.key !== id);
         this.setState({
             queries: updatedQueries
         });
-        this.props.removeActiveDataset(name);
+        this.props.removeActiveDataset(id);
     }
 
     updateProperties(dataset, properties) {
@@ -128,7 +123,7 @@ export class QueryConstructor extends React.Component {
                                     <Form.Label>Select Dataset</Form.Label>
                                     <Form.Control as="select"
                                                   onChange={this.handleSelectDataset}
-                                                  value={this.state.selectValue}
+                                                  value={this.state.selectedDataset.value}
                                     >
                                         {datasets.map(item => {
                                             return <option key={item.id}>{item.value}</option>

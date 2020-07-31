@@ -7,22 +7,18 @@ import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 import {HospitalsMap} from "./hospitals-map";
 
 export class MainMap extends React.Component {
-    constructor(props) {
-        super(props);
+    toggleDataset(dataset) {
+        const activeDatasets = this.props.activeDatasets;
+        return activeDatasets && activeDatasets.indexOf(dataset) > -1;
     }
 
     render() {
         let mapRef = React.createRef();
 
-        let enableHospitals = false;
-        let enableNaturalGasPipelines = false;
+        // console.log("main-map's render():", this.props.activeDatasets);
 
-        console.log("main map's render():", this.props.activeDatasets);
-        if (this.props.activeDatasets && this.props.activeDatasets.indexOf('hospitals') > -1) {
-            enableHospitals = true;
-        } else if (this.props.activeDatasets && this.props.activeDatasets.indexOf('natural_gas_pipelines') > -1) {
-            enableNaturalGasPipelines = true;
-        }
+        let enableHospitals = this.toggleDataset('hospitals');
+        let enableNaturalGasPipelines = this.toggleDataset('natural_gas_pipelines');
 
         return (
             <Map center={[42.2, -71.7]} zoom={8}
