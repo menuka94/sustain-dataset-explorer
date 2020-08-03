@@ -5,6 +5,9 @@ import {MainNavbar} from "./navbar";
 import {QueryConstructor} from "./query-constructor";
 import {MainMap} from "./maps/main-map";
 
+const {DatasetRequest} = require('./grpc-client/census_pb');
+const {CensusClient} = require('./grpc-client/census_grpc_web_pb');
+
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -13,6 +16,11 @@ export default class Main extends React.Component {
         };
         this.addActiveDataset = this.addActiveDataset.bind(this);
         this.removeActiveDataset = this.removeActiveDataset.bind(this);
+    }
+
+    componentDidMount() {
+        const censusService = new CensusClient('http://localhost:50051');
+
     }
 
     addActiveDataset(dataset) {
