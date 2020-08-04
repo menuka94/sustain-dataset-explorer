@@ -34,7 +34,6 @@ export class PowerStationsMap extends React.Component {
             });
             call.on('error', console.error);
             call.on('end', () => {
-                console.log("Completed!")
                 console.log('hospitals count:', powerStationsData.length);
                 this.setState({
                     powerStationsData: powerStationsData

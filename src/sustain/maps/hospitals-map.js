@@ -34,7 +34,6 @@ export class HospitalsMap extends React.Component {
             });
             call.on('error', console.error);
             call.on('end', () => {
-                console.log("Completed!")
                 console.log('hospitals count:', hospitalData.length);
                 this.setState({
                     hospitalData: hospitalData

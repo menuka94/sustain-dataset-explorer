@@ -10,7 +10,8 @@ export class NaturalGasPipelinesMap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pipelineData: []
+            pipelineData: [],
+            element: null
         }
     }
 
@@ -29,10 +30,10 @@ export class NaturalGasPipelinesMap extends React.Component {
             });
             call.on('error', console.error);
             call.on('end', () => {
-                console.log("Completed!")
                 console.log('pipelines count:', pipelineData.length);
                 this.setState({
-                    pipelineData: pipelineData
+                    pipelineData: pipelineData,
+                    element: <GeoJSON data={pipelineData}/>
                 });
             });
         } else {
@@ -41,6 +42,11 @@ export class NaturalGasPipelinesMap extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
+        // this is necessary as <GeoJSON/> does not redraw on data change.
+        // entire element needs to be re-rendered
+        this.setState({
+           element: null
+        });
         this.updateData();
     }
 
@@ -53,13 +59,8 @@ export class NaturalGasPipelinesMap extends React.Component {
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
                 {pipelineData && pipelineData.length > 0 &&
-                pipelineData.map(pipeline => {
-                    console.log('polyline:', pipeline);
-                    return <Polyline
-                        key={pipeline.id}
-                        positions={pipeline.geometry.coordinates}
-                    ></Polyline>
-                })}
+                    this.state.element
+                }
             </div>
         );
     }
