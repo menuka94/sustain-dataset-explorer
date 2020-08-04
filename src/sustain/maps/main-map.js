@@ -26,6 +26,7 @@ export class MainMap extends React.Component {
 
         let enableHospitals = this.toggleDataset('hospitals');
         let enableNaturalGasPipelines = this.toggleDataset('natural_gas_pipelines');
+        let enablePowerPlants = this.toggleDataset('power_plants');
 
         return (
             <Map center={[42.2, -71.7]} zoom={8}
@@ -37,8 +38,7 @@ export class MainMap extends React.Component {
                      });
                  }}
 
-                 onLoad={() => {
-                     console.log('onLoad()');
+                 whenReady={() => {
                      const bounds = mapRef.current.leafletElement.getBounds();
                      const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
                      this.setState({
@@ -49,8 +49,8 @@ export class MainMap extends React.Component {
                  ref={mapRef}
             >
                 {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
-                {enableNaturalGasPipelines && <NaturalGasPipelinesMap/>}
-                {/*{enablePowerPlants && <PowerStationsMap/>}*/}
+                {enableNaturalGasPipelines && <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}
+                {enablePowerPlants && <PowerStationsMap geoJson={this.state.geoJson}/>}
             </Map>
         );
     }

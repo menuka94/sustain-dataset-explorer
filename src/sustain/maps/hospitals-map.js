@@ -6,7 +6,6 @@ import {TileLayer, Marker, Popup} from "react-leaflet";
 const {client} = require('../grpc-client/grpc-querier');
 const {DatasetRequest} = require('../grpc-client/census_pb');
 
-
 export class HospitalsMap extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +23,6 @@ export class HospitalsMap extends React.Component {
         const geoJson = this.props.geoJson;
         if (geoJson) {
             let hospitalData = [];
-            console.log("GeoJson:", geoJson);
             const datasetRequest = new DatasetRequest();
             datasetRequest.setDataset(0);
             datasetRequest.setSpatialop(0);
@@ -37,6 +35,7 @@ export class HospitalsMap extends React.Component {
             call.on('error', console.error);
             call.on('end', () => {
                 console.log("Completed!")
+                console.log('hospitals count:', hospitalData.length);
                 this.setState({
                     hospitalData: hospitalData
                 });

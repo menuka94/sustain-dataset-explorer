@@ -12,12 +12,13 @@ export class Query extends React.Component {
             <div>
                 <Card style={{width: '16rem'}}>
                     <Card.Body>
-                        <Card.Title>{this.props.name}</Card.Title>
+                        {/*<Card.Title>{this.props.name}</Card.Title>*/}
                         <Card.Text>
+                            {this.props.name} &nbsp;
                             {/*{this.props.details}*/}
-                            <Button className="btn-sm btn-danger"
+                            <Button className="btn btn-sm btn-danger"
                                     onClick={() => this.props.onClickRemove(this.props.id)}
-                            >Remove</Button>
+                            >X</Button>
                         </Card.Text>
                     </Card.Body>
                 </Card>
