@@ -2,7 +2,6 @@ import React from "react";
 import '../../App.css';
 import {Icon} from "leaflet";
 import {TileLayer, Marker, Popup} from "react-leaflet";
-// import * as powerStationsData from "../../resources/data/power_plants.json";
 
 const {client} = require('../grpc-client/grpc-querier');
 const {DatasetRequest} = require('../grpc-client/census_pb');
@@ -94,6 +93,4 @@ export class PowerStationsMap extends React.Component {
             </div>
         );
     }
-
-
 }
