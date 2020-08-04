@@ -6,7 +6,6 @@ import {QueryConstructor} from "./query-constructor";
 import {MainMap} from "./maps/main-map";
 
 const {DatasetRequest} = require('./grpc-client/census_pb');
-const {CensusClient} = require('./grpc-client/census_grpc_web_pb');
 const {client, requestGeoJson} = require('./grpc-client/grpc-querier');
 
 export default class Main extends React.Component {
@@ -17,18 +16,6 @@ export default class Main extends React.Component {
         };
         this.addActiveDataset = this.addActiveDataset.bind(this);
         this.removeActiveDataset = this.removeActiveDataset.bind(this);
-    }
-
-    componentWillMount() {
-        console.log('componentWillMount()');
-        const datasetRequest = new DatasetRequest();
-        datasetRequest.setDataset(0);
-        datasetRequest.setSpatialop(0);
-        datasetRequest.setRequestgeojson(requestGeoJson);
-        let call = client.datasetQuery(datasetRequest);
-        call.on('data', console.log);
-        call.on('error', console.error);
-        call.on('end', () => console.log("Completed!"));
     }
 
     addActiveDataset(dataset) {

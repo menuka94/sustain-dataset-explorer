@@ -2,47 +2,96 @@ import React from "react";
 import '../../App.css';
 import {Icon} from "leaflet";
 import {TileLayer, Marker, Popup} from "react-leaflet";
-import * as hospitalData from "../../resources/data/hospitals.json";
 
-export const HospitalsMap = () => {
-    const [activeHospital, setActiveHospital] = React.useState(null);
-    const hospitalIcon = new Icon({
-        iconUrl: 'healthcare-icon.png',
-        iconSize: [25, 25]
-    });
+const {client} = require('../grpc-client/grpc-querier');
+const {DatasetRequest} = require('../grpc-client/census_pb');
 
-    return (
-        <div>
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            />
-            {hospitalData.features.map(hospital =>
-                <Marker key={hospital.properties.ID} position={[
-                    hospital.geometry.coordinates[1],
-                    hospital.geometry.coordinates[0]
-                ]}
-                        onClick={() => {
-                            setActiveHospital(hospital);
-                        }}
-                        icon={hospitalIcon}
-                ></Marker>
-            )}
 
-            {activeHospital && <Popup
-                position={[
-                    activeHospital.geometry.coordinates[1],
-                    activeHospital.geometry.coordinates[0]
-                ]}
-                onClose={() => {
-                    setActiveHospital(null);
-                }}
-            >
-                <div>
-                    <h4>{activeHospital.properties.NAME}</h4>
-                    <h6>{activeHospital.properties.ADDRESS}, {activeHospital.properties.CITY}, {activeHospital.properties.STATE}</h6>
-                </div>
-            </Popup>}
-        </div>
-    );
+export class HospitalsMap extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            activeHospital: null,
+            hospitalIcon: new Icon({
+                iconUrl: 'healthcare-icon.png',
+                iconSize: [25, 25]
+            }),
+            hospitalData: []
+        }
+    }
+
+    updateData() {
+        const geoJson = this.props.geoJson;
+        if (geoJson) {
+            let hospitalData = [];
+            console.log("GeoJson:", geoJson);
+            const datasetRequest = new DatasetRequest();
+            datasetRequest.setDataset(0);
+            datasetRequest.setSpatialop(0);
+            datasetRequest.setRequestgeojson(this.props.geoJson);
+            let call = client.datasetQuery(datasetRequest);
+            call.on('data', (data) => {
+                const response = JSON.parse(data.getResponse());
+                hospitalData.push(response);
+            });
+            call.on('error', console.error);
+            call.on('end', () => {
+                console.log("Completed!")
+                this.setState({
+                    hospitalData: hospitalData
+                });
+            });
+        } else {
+            console.error("GeoJson is undefined");
+        }
+    }
+
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.updateData();
+    }
+
+    render() {
+        let hospitalData = this.state.hospitalData;
+        return (
+            <div>
+                <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                />
+                {hospitalData && hospitalData.length > 0 && hospitalData.map(hospital =>
+                    <Marker key={hospital.properties.ID} position={[
+                        hospital.geometry.coordinates[1],
+                        hospital.geometry.coordinates[0]
+                    ]}
+                            onClick={() => {
+                                this.setState({
+                                    activeHospital: hospital
+                                });
+                            }}
+                            icon={this.state.hospitalIcon}
+                    ></Marker>
+                )}
+
+                {this.state.activeHospital && <Popup
+                    position={[
+                        this.state.activeHospital.geometry.coordinates[1],
+                        this.state.activeHospital.geometry.coordinates[0]
+                    ]}
+                    onClose={() => {
+                        this.setState({
+                            activeHospital: null
+                        });
+                    }}
+                >
+                    <div>
+                        <h4>{this.state.activeHospital.properties.NAME}</h4>
+                        <h6>{this.state.activeHospital.properties.ADDRESS}, {this.state.activeHospital.properties.CITY},
+                            {this.state.activeHospital.properties.STATE}</h6>
+                    </div>
+                </Popup>}
+            </div>
+        );
+    }
+
 }

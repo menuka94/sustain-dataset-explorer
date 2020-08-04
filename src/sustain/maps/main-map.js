@@ -7,6 +7,13 @@ import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 import {HospitalsMap} from "./hospitals-map";
 
 export class MainMap extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            geoJson: null,
+        };
+    }
+
     toggleDataset(dataset) {
         const activeDatasets = this.props.activeDatasets;
         return activeDatasets && activeDatasets.indexOf(dataset) > -1;
@@ -25,11 +32,23 @@ export class MainMap extends React.Component {
                  onZoom={() => {
                      const bounds = mapRef.current.leafletElement.getBounds();
                      const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
-                     console.log(geoJson);
+                     this.setState({
+                         geoJson: geoJson
+                     });
                  }}
+
+                 onLoad={() => {
+                     console.log('onLoad()');
+                     const bounds = mapRef.current.leafletElement.getBounds();
+                     const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
+                     this.setState({
+                         geoJson: geoJson
+                     });
+                 }}
+
                  ref={mapRef}
             >
-                {enableHospitals && <HospitalsMap/>}
+                {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
                 {enableNaturalGasPipelines && <NaturalGasPipelinesMap/>}
                 {/*{enablePowerPlants && <PowerStationsMap/>}*/}
             </Map>
