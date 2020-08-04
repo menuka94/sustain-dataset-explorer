@@ -2,7 +2,7 @@ import React from "react";
 import '../../App.css';
 import {Map} from "react-leaflet";
 import {PowerStationsMap} from "./power-stations-map";
-import {makeGeoJson} from "../grpc-querier";
+import {makeGeoJson} from "../grpc-client/grpc-querier";
 import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 import {HospitalsMap} from "./hospitals-map";
 
