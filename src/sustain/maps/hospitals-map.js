@@ -17,6 +17,7 @@ export class HospitalsMap extends React.Component {
             }),
             hospitalData: []
         }
+        this.updateData = this.updateData.bind(this);
     }
 
     updateData() {

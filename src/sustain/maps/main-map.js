@@ -5,6 +5,7 @@ import {PowerStationsMap} from "./power-stations-map";
 import {makeGeoJson} from "../grpc-client/grpc-querier";
 import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 import {HospitalsMap} from "./hospitals-map";
+import {DamsMap} from "./dams-map";
 
 export class MainMap extends React.Component {
     constructor(props) {
@@ -12,6 +13,7 @@ export class MainMap extends React.Component {
         this.state = {
             geoJson: null,
         };
+        this.toggleDataset = this.toggleDataset.bind(this);
     }
 
     toggleDataset(dataset) {
@@ -27,15 +29,26 @@ export class MainMap extends React.Component {
         let enableHospitals = this.toggleDataset('hospitals');
         let enableNaturalGasPipelines = this.toggleDataset('natural_gas_pipelines');
         let enablePowerPlants = this.toggleDataset('power_plants');
+        let enableDams = this.toggleDataset('dams');
 
         return (
             <Map center={[42.2, -71.7]} zoom={8}
-                 onZoom={() => {
+                 onZoomEnd={() => {
                      const bounds = mapRef.current.leafletElement.getBounds();
                      const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
                      this.setState({
                          geoJson: geoJson
                      });
+                 }}
+
+                 onMoveEnd={() => {
+                     if (mapRef && mapRef.current && mapRef.current.leafletElement) {
+                         const bounds = mapRef.current.leafletElement.getBounds();
+                         const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
+                         this.setState({
+                             geoJson: geoJson
+                         });
+                     }
                  }}
 
                  whenReady={() => {
@@ -51,6 +64,7 @@ export class MainMap extends React.Component {
                 {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
                 {enableNaturalGasPipelines && <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}
                 {enablePowerPlants && <PowerStationsMap geoJson={this.state.geoJson}/>}
+                {enableDams && <DamsMap geoJson={this.state.geoJson}/>}
             </Map>
         );
     }
