@@ -1,16 +1,15 @@
 import React from "react";
 import '../../App.css';
 import {TileLayer, GeoJSON} from "react-leaflet";
-// import * as naturalGasPipelinesData from "../../resources/data/natural_gas_pipelines.json";
 
 const {client} = require('../grpc-client/grpc-querier');
 const {DatasetRequest} = require('../grpc-client/census_pb');
 
-export class NaturalGasPipelinesMap extends React.Component {
+export class TransmissionLinesMap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pipelineData: [],
+            transmissionLinesData: [],
             element: null
         }
     }
@@ -18,22 +17,22 @@ export class NaturalGasPipelinesMap extends React.Component {
     updateData() {
         const geoJson = this.props.geoJson;
         if (geoJson) {
-            let pipelineData = [];
+            let transmissionLinesData = [];
             const datasetRequest = new DatasetRequest();
-            datasetRequest.setDataset(4);
+            datasetRequest.setDataset(3);
             datasetRequest.setSpatialop(0);
             datasetRequest.setRequestgeojson(this.props.geoJson);
             let call = client.datasetQuery(datasetRequest);
             call.on('data', (data) => {
                 const response = JSON.parse(data.getResponse());
-                pipelineData.push(response);
+                transmissionLinesData.push(response);
             });
             call.on('error', console.error);
             call.on('end', () => {
-                console.log('pipelines count:', pipelineData.length);
+                console.log('transmission lines count:', transmissionLinesData.length);
                 this.setState({
-                    pipelineData: pipelineData,
-                    element: <GeoJSON data={pipelineData} style={{color: 'green'}}/>
+                    transmissionLinesData: transmissionLinesData,
+                    element: <GeoJSON data={transmissionLinesData} style={{color: 'purple'}}/>
                 });
             });
         } else {
@@ -45,21 +44,21 @@ export class NaturalGasPipelinesMap extends React.Component {
         // this is necessary as <GeoJSON/> does not redraw on data change.
         // entire element needs to be re-rendered
         this.setState({
-           element: null
+            element: null
         });
         this.updateData();
     }
 
     render() {
-        let pipelineData = this.state.pipelineData;
+        let transmissionLinesData = this.state.transmissionLinesData;
         return (
             <div>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 />
-                {pipelineData && pipelineData.length > 0 &&
-                    this.state.element
+                {transmissionLinesData && transmissionLinesData.length > 0 &&
+                this.state.element
                 }
             </div>
         );

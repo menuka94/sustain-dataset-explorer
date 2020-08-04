@@ -6,6 +6,7 @@ import {makeGeoJson} from "../grpc-client/grpc-querier";
 import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 import {HospitalsMap} from "./hospitals-map";
 import {DamsMap} from "./dams-map";
+import {TransmissionLinesMap} from "./transmission-lines-map";
 
 export class MainMap extends React.Component {
     constructor(props) {
@@ -30,6 +31,7 @@ export class MainMap extends React.Component {
         let enableNaturalGasPipelines = this.toggleDataset('natural_gas_pipelines');
         let enablePowerPlants = this.toggleDataset('power_plants');
         let enableDams = this.toggleDataset('dams');
+        let enableTransmissionLines = this.toggleDataset('transmission_lines');
 
         return (
             <Map center={[42.2, -71.7]} zoom={8}
@@ -62,9 +64,11 @@ export class MainMap extends React.Component {
                  ref={mapRef}
             >
                 {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
-                {enableNaturalGasPipelines && <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}
+                {enableNaturalGasPipelines &&
+                <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}
                 {enablePowerPlants && <PowerStationsMap geoJson={this.state.geoJson}/>}
                 {enableDams && <DamsMap geoJson={this.state.geoJson}/>}
+                {enableTransmissionLines && <TransmissionLinesMap geoJson={this.state.geoJson}/>}
             </Map>
         );
     }
