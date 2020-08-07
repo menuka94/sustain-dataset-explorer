@@ -1,7 +1,7 @@
 import React from "react";
 import '../../App.css';
 import {Icon} from "leaflet";
-import {TileLayer, Marker, Popup} from "react-leaflet";
+import {Marker, Popup} from "react-leaflet";
 
 const {client} = require('../grpc-client/grpc-querier');
 const {DatasetRequest} = require('../grpc-client/census_pb');
@@ -53,10 +53,6 @@ export class PowerStationsMap extends React.Component {
         let powerStationsData = this.state.powerStationsData;
         return (
             <div>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
                 {powerStationsData && powerStationsData.length > 0 &&
                 powerStationsData.map(powerStation =>
                     <Marker key={powerStation.properties.PGM_SYS_ID} position={[

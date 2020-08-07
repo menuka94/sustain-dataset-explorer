@@ -1,6 +1,6 @@
 import React from "react";
 import '../../App.css';
-import {Map} from "react-leaflet";
+import {Map, TileLayer} from "react-leaflet";
 import {PowerStationsMap} from "./power-stations-map";
 import {makeGeoJson} from "../grpc-client/grpc-querier";
 import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
@@ -12,6 +12,8 @@ export class MainMap extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             geoJson: null,
         };
         this.toggleDataset = this.toggleDataset.bind(this);
@@ -24,8 +26,6 @@ export class MainMap extends React.Component {
 
     render() {
         let mapRef = React.createRef();
-
-        // console.log("main-map's render():", this.props.activeDatasets);
 
         let enableHospitals = this.toggleDataset('hospitals');
         let enableNaturalGasPipelines = this.toggleDataset('natural_gas_pipelines');
@@ -63,6 +63,12 @@ export class MainMap extends React.Component {
 
                  ref={mapRef}
             >
+
+                <TileLayer
+                    url={this.state.url}
+                    attribution={this.state.attribution}
+                />
+
                 {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
                 {enableNaturalGasPipelines &&
                 <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}

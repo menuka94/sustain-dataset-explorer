@@ -95,7 +95,7 @@ export class QueryConstructor extends React.Component {
 
     render() {
         let featureSelectorElement;
-        if (this.state.selectedDataset === 'Census') {
+        if (this.state.selectedDataset.id === 'census') {
             featureSelectorElement = <CensusFeatureSelector
                 updateProperties={this.updateProperties}
             />;

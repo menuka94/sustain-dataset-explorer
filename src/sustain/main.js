@@ -4,6 +4,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import {MainNavbar} from "./navbar";
 import {QueryConstructor} from "./query-constructor";
 import {MainMap} from "./maps/main-map";
+import {AllMaps} from "./all-maps";
 
 const {DatasetRequest} = require('./grpc-client/census_pb');
 const {client, requestGeoJson} = require('./grpc-client/grpc-querier');
@@ -12,11 +13,12 @@ export default class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            activeDatasets: []
+            activeDatasets: [],
         };
         this.addActiveDataset = this.addActiveDataset.bind(this);
         this.removeActiveDataset = this.removeActiveDataset.bind(this);
     }
+
 
     addActiveDataset(dataset) {
         const activeDatasets = [...this.state.activeDatasets];
@@ -50,10 +52,8 @@ export default class Main extends React.Component {
                         removeActiveDataset={this.removeActiveDataset}
                     />
                 </Col>
-                {/*<Col className="col-lg-9">*/}
                 <Col>
-                    <MainMap activeDatasets={this.state.activeDatasets}
-                    />
+                    <AllMaps activeDatasets={this.state.activeDatasets}/>
                 </Col>
             </Row>
         </Container>
