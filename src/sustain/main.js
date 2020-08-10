@@ -1,12 +1,9 @@
 import React from 'react';
 
-import {Container, Row, Col} from 'react-bootstrap';
 import {MainNavbar} from "./navbar";
 import {QueryConstructor} from "./query-constructor";
 import {AllMaps} from "./all-maps";
 
-const {DatasetRequest} = require('./grpc-client/census_pb');
-const {client, requestGeoJson} = require('./grpc-client/grpc-querier');
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -42,19 +39,21 @@ export default class Main extends React.Component {
     }
 
     render() {
-        return <Container fluid>
-            <MainNavbar/>
-            <Row>
-                <Col className="col-lg-3">
-                    <QueryConstructor
-                        addActiveDataset={this.addActiveDataset}
-                        removeActiveDataset={this.removeActiveDataset}
-                    />
-                </Col>
-                <Col>
-                    <AllMaps activeDatasets={this.state.activeDatasets}/>
-                </Col>
-            </Row>
-        </Container>
+        return (
+            <div className="container-fluid">
+                <MainNavbar/>
+                <div className="row">
+                    <div className="col-lg-3">
+                        <QueryConstructor
+                            addActiveDataset={this.addActiveDataset}
+                            removeActiveDataset={this.removeActiveDataset}
+                        />
+                    </div>
+                    <div className="col">
+                        <AllMaps activeDatasets={this.state.activeDatasets}/>
+                    </div>
+                </div>
+            </div>
+        )
     }
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import {Map3} from "./maps/map3";
-import {Row, Tab, Col} from "react-bootstrap";
 import {Map2} from "./maps/map2";
 
 export class AllMaps extends React.Component {
@@ -27,20 +26,20 @@ export class AllMaps extends React.Component {
     render() {
         return (
             <div>
-                <Row>
-                    <Col title="Leaflet">
+                <div className="row">
+                    <div title="Leaflet" className="col">
                         <Map3
                             globalPosition={this.state.globalPosition}
                             setGlobalPosition={this.setGlobalPosition}
                             activeDatasets={this.props.activeDatasets}/>
-                    </Col>
-                    <Col title="Base Maps">
+                    </div>
+                    <div title="Base Maps" className="col">
                         <Map2
                             globalPosition={this.state.globalPosition}
                             setGlobalPosition={this.setGlobalPosition}
                             activeDatasets={this.props.activeDatasets}/>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             </div>
         );
     }

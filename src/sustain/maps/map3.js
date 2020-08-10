@@ -34,7 +34,7 @@ export class Map3 extends React.Component {
         let enableTransmissionLines = this.toggleDataset('transmission_lines');
 
         return (
-            <Map center={[42.2, -71.7]} zoom={8}
+            <Map center={this.props.globalPosition.center} zoom={this.props.globalPosition.zoom}
                  onZoomEnd={() => {
                      const bounds = mapRef.current.leafletElement.getBounds();
                      const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
