@@ -2,6 +2,8 @@ import React from "react";
 import {MainMap} from "./maps/main-map";
 import {Tabs, Tab} from "react-bootstrap";
 import {Map2} from "./maps/map2";
+import {Map1} from "./maps/map1";
+import {Map4} from "./maps/map4";
 
 export class AllMaps extends React.Component {
     constructor(props) {
@@ -15,11 +17,11 @@ export class AllMaps extends React.Component {
         this.setGlobalPosition = this.setGlobalPosition.bind(this);
     }
 
-    setGlobalPosition(position) {
+    setGlobalPosition(center, zoom) {
         this.setState({
             globalPosition: {
-                center: position.center,
-                zoom: position.zoom
+                center: center,
+                zoom: zoom
             }
         });
     }
@@ -40,6 +42,18 @@ export class AllMaps extends React.Component {
                             setGlobalPosition={this.setGlobalPosition}
                             activeDatasets={this.props.activeDatasets}/>
                     </Tab>
+                    {/*<Tab eventKey="map1" title="Map 1">*/}
+                    {/*    <Map1*/}
+                    {/*        globalPosition={this.state.globalPosition}*/}
+                    {/*        setGlobalPosition={this.setGlobalPosition}*/}
+                    {/*        activeDatasets={this.props.activeDatasets}/>*/}
+                    {/*</Tab>*/}
+                    {/*<Tab eventKey="map4" title="Google Maps">*/}
+                    {/*    <Map4*/}
+                    {/*        globalPosition={this.state.globalPosition}*/}
+                    {/*        setGlobalPosition={this.setGlobalPosition}*/}
+                    {/*        activeDatasets={this.props.activeDatasets}/>*/}
+                    {/*</Tab>*/}
                 </Tabs>
             </div>
         );

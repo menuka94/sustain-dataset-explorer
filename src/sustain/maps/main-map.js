@@ -38,18 +38,24 @@ export class MainMap extends React.Component {
                  onZoomEnd={() => {
                      const bounds = mapRef.current.leafletElement.getBounds();
                      const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
+                     const center = mapRef.current.leafletElement.getCenter();
+                     const zoom = mapRef.current.leafletElement.getZoom();
                      this.setState({
                          geoJson: geoJson
                      });
+                     this.props.setGlobalPosition(center, zoom);
                  }}
 
                  onMoveEnd={() => {
                      if (mapRef && mapRef.current && mapRef.current.leafletElement) {
                          const bounds = mapRef.current.leafletElement.getBounds();
+                         const center = mapRef.current.leafletElement.getCenter();
+                         const zoom = mapRef.current.leafletElement.getZoom();
                          const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
                          this.setState({
                              geoJson: geoJson
                          });
+                         this.props.setGlobalPosition(center, zoom);
                      }
                  }}
 

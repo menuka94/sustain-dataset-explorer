@@ -7,12 +7,12 @@ import {PowerStationsMap} from "./power-stations-map";
 import {DamsMap} from "./dams-map";
 import {TransmissionLinesMap} from "./transmission-lines-map";
 
-export class Map2 extends React.Component {
+export class Map1 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            url: 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             geoJson: null,
         }
         this.toggleDataset = this.toggleDataset.bind(this);
