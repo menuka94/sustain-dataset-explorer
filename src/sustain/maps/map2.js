@@ -33,47 +33,54 @@ export class Map2 extends React.Component {
         let enableTransmissionLines = this.toggleDataset('transmission_lines');
 
         return (
-            <div>
-                <Map center={[42.4, -71.7]} zoom={8}
-                     ref={mapRef}
-                     onZoomEnd={() => {
+            <Map center={[42.2, -71.7]} zoom={8}
+                 onZoomEnd={() => {
+                     const bounds = mapRef.current.leafletElement.getBounds();
+                     const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
+                     const center = mapRef.current.leafletElement.getCenter();
+                     const zoom = mapRef.current.leafletElement.getZoom();
+                     this.setState({
+                         geoJson: geoJson
+                     });
+                     this.props.setGlobalPosition(center, zoom);
+                 }}
+
+                 onMoveEnd={() => {
+                     if (mapRef && mapRef.current && mapRef.current.leafletElement) {
                          const bounds = mapRef.current.leafletElement.getBounds();
-                         const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
                          const center = mapRef.current.leafletElement.getCenter();
                          const zoom = mapRef.current.leafletElement.getZoom();
+                         const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
                          this.setState({
                              geoJson: geoJson
                          });
                          this.props.setGlobalPosition(center, zoom);
-                     }}
+                     }
+                 }}
 
-                     onMoveEnd={() => {
-                         if (mapRef && mapRef.current && mapRef.current.leafletElement) {
-                             const bounds = mapRef.current.leafletElement.getBounds();
-                             const center = mapRef.current.leafletElement.getCenter();
-                             const zoom = mapRef.current.leafletElement.getZoom();
-                             const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
-                             this.setState({
-                                 geoJson: geoJson
-                             });
-                             this.props.setGlobalPosition(center, zoom);
-                         }
-                     }}
-                >
-                    <TileLayer
-                        attribution={this.state.attribution}
-                        url={this.state.url}
-                    />
+                 whenReady={() => {
+                     const bounds = mapRef.current.leafletElement.getBounds();
+                     const geoJson = makeGeoJson(bounds._southWest, bounds._northEast);
+                     this.setState({
+                         geoJson: geoJson
+                     });
+                 }}
 
-                    {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
-                    {enableNaturalGasPipelines &&
-                    <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}
-                    {enablePowerPlants && <PowerStationsMap geoJson={this.state.geoJson}/>}
-                    {enableDams && <DamsMap geoJson={this.state.geoJson}/>}
-                    {enableTransmissionLines &&
-                    <TransmissionLinesMap geoJson={this.state.geoJson}/>}
-                </Map>
-            </div>
+                 ref={mapRef}
+            >
+
+                <TileLayer
+                    url={this.state.url}
+                    attribution={this.state.attribution}
+                />
+
+                {enableHospitals && <HospitalsMap geoJson={this.state.geoJson}/>}
+                {enableNaturalGasPipelines &&
+                <NaturalGasPipelinesMap geoJson={this.state.geoJson}/>}
+                {enablePowerPlants && <PowerStationsMap geoJson={this.state.geoJson}/>}
+                {enableDams && <DamsMap geoJson={this.state.geoJson}/>}
+                {enableTransmissionLines && <TransmissionLinesMap geoJson={this.state.geoJson}/>}
+            </Map>
         );
     }
 }
