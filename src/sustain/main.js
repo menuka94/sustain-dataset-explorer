@@ -3,7 +3,6 @@ import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import {MainNavbar} from "./navbar";
 import {QueryConstructor} from "./query-constructor";
-import {MainMap} from "./maps/main-map";
 import {AllMaps} from "./all-maps";
 
 const {DatasetRequest} = require('./grpc-client/census_pb');

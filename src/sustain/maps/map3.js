@@ -8,7 +8,7 @@ import {HospitalsMap} from "./hospitals-map";
 import {DamsMap} from "./dams-map";
 import {TransmissionLinesMap} from "./transmission-lines-map";
 
-export class MainMap extends React.Component {
+export class Map3 extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
