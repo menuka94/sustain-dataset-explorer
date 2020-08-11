@@ -13,6 +13,7 @@ export class NaturalGasPipelinesMap extends React.Component {
             pipelineData: [],
             element: null
         }
+        this.updateData = this.updateData.bind(this);
     }
 
     updateData() {

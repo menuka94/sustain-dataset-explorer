@@ -7,6 +7,7 @@ import {NaturalGasPipelinesMap} from "./natural-gas-pipelines-map";
 import {HospitalsMap} from "./hospitals-map";
 import {DamsMap} from "./dams-map";
 import {TransmissionLinesMap} from "./transmission-lines-map";
+import {CensusMap} from "./census-map";
 
 export class Map3 extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ export class Map3 extends React.Component {
         let enablePowerPlants = this.toggleDataset('power_plants');
         let enableDams = this.toggleDataset('dams');
         let enableTransmissionLines = this.toggleDataset('transmission_lines');
+        let censusEnabled = this.toggleDataset('census');
 
         return (
             <Map center={this.props.globalPosition.center} zoom={this.props.globalPosition.zoom}
@@ -81,6 +83,7 @@ export class Map3 extends React.Component {
                 {enablePowerPlants && <PowerStationsMap geoJson={this.state.geoJson}/>}
                 {enableDams && <DamsMap geoJson={this.state.geoJson}/>}
                 {enableTransmissionLines && <TransmissionLinesMap geoJson={this.state.geoJson}/>}
+                {censusEnabled && <CensusMap geoJson={this.state.geoJson}/>}
             </Map>
         );
     }

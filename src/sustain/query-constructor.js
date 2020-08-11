@@ -8,7 +8,7 @@ export class QueryConstructor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedDataset: 'Census',
+            selectedDataset: datasets[0],
             queries: [],
             censusProperties: {
                 censusFeature: '',
@@ -62,7 +62,7 @@ export class QueryConstructor extends React.Component {
         />
         let newQuery = {
             'id': newKey,
-            'name': this.state.selectedDataset,
+            'name': this.state.selectedDataset.value,
             'element': newQueryElement
         };
         queries.push(newQuery);
