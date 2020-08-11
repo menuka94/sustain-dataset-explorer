@@ -1,5 +1,5 @@
 import React from "react";
-import {GeoJSON} from "react-leaflet";
+import {GeoJSON, Tooltip} from "react-leaflet";
 // import * as naturalGasPipelinesData from "../../resources/data/natural_gas_pipelines.json";
 
 const {client} = require('../grpc-client/grpc-querier');
@@ -12,6 +12,11 @@ export class CensusMap extends React.Component {
             censusData: null,
             element: null
         }
+    }
+
+    onEachFeature(feature, layer) {
+        // console.log('feature.values:', feature.values);
+        layer.bindTooltip(feature.values);
     }
 
     updateData() {
@@ -33,7 +38,11 @@ export class CensusMap extends React.Component {
                 console.log('census entries count:', censusData.length);
                 this.setState({
                     censusData: censusData,
-                    element: <GeoJSON data={censusData}/>
+                    element: <GeoJSON
+                        data={censusData}
+                        onEachFeature={this.onEachFeature}
+                    >
+                    </GeoJSON>
                 });
             })
             call.on('err', console.error);
