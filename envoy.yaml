@@ -1,8 +1,13 @@
+admin:
+  access_log_path: /tmp/admin_access.log
+  address:
+    socket_address: { address: 0.0.0.0, port_value: 9093 }
+
 static_resources:
   listeners:
     - name: listener_0
       address:
-        socket_address: { address: 0.0.0.0, port_value: 8080 }
+        socket_address: { address: 0.0.0.0, port_value: 9092 }
       filter_chains:
         - filters:
             - name: envoy.http_connection_manager
@@ -15,10 +20,12 @@ static_resources:
                     - name: local_service
                       domains: ["*"]
                       routes:
+                        - match: { prefix: "/census" }
+                          route: { cluster: TargetedQueryServiceCensus }
                         - match: { prefix: "/" }
-                          route:
-                            cluster: census_service
-                            max_grpc_timeout: 0s
+                          route: { cluster: TargetedQueryService }
+                        - match: { prefix: "/for-dataset-explorer" }
+                          route: { cluster: gRPCServiceForDatasetExplorer }
                       cors:
                         allow_origin_string_match:
                           - prefix: "*"
@@ -31,9 +38,21 @@ static_resources:
                   - name: envoy.cors
                   - name: envoy.router
   clusters:
-    - name: census_service
+    - name: TargetedQueryService
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
-      hosts: [{ socket_address: { address: 'localhost', port_value: 50051 }}]
+      hosts: [{ socket_address: { address: "lattice-160.cs.colostate.edu", port_value: 9091 }}]
+    - name: TargetedQueryServiceCensus
+      connect_timeout: 0.25s
+      type: logical_dns
+      http2_protocol_options: {}
+      lb_policy: round_robin
+      hosts: [{ socket_address: { address: "lattice-0.cs.colostate.edu", port_value: 50051 }}]
+    - name: gRPCServiceForDatasetExplorer
+      connect_timeout: 0.25s
+      type: logical_dns
+      http2_protocol_options: {}
+      lb_policy: round_robin
+      hosts: [{ socket_address: { address: "lattice-1.cs.colostate.edu", port_value: 50051 }}]
