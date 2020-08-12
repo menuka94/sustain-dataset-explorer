@@ -1,6 +1,6 @@
 export const datasets = [
-    {'id': 'census', 'value': "Census"},
     {'id': 'hospitals', 'value': "Hospitals"},
+    {'id': 'census', 'value': "Census"},
     {'id': 'electrical_substations', 'value': "Electrical Substations"},
     {'id': 'dams', 'value': "Dams"},
     {'id': 'transmission_lines', 'value': "Transmission Lines"},

@@ -1,7 +1,7 @@
 import React from "react";
 import '../../App.css';
 import {Icon} from "leaflet";
-import {TileLayer, Marker, Popup} from "react-leaflet";
+import {Marker, Popup} from "react-leaflet";
 
 const {client} = require('../grpc-client/grpc-querier');
 const {DatasetRequest} = require('../grpc-client/census_pb');
@@ -54,10 +54,6 @@ export class HospitalsMap extends React.Component {
         let hospitalData = this.state.hospitalData;
         return (
             <div>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
                 {hospitalData && hospitalData.length > 0 && hospitalData.map(hospital =>
                     <Marker key={hospital.properties.ID} position={[
                         hospital.geometry.coordinates[1],

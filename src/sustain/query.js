@@ -2,10 +2,6 @@ import React from "react";
 import {Button, Card} from "react-bootstrap";
 
 export class Query extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         console.log('query.js - props:', this.props);
         return (

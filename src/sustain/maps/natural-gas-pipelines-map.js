@@ -1,6 +1,6 @@
 import React from "react";
 import '../../App.css';
-import {TileLayer, GeoJSON} from "react-leaflet";
+import {GeoJSON} from "react-leaflet";
 // import * as naturalGasPipelinesData from "../../resources/data/natural_gas_pipelines.json";
 
 const {client} = require('../grpc-client/grpc-querier');
@@ -13,6 +13,7 @@ export class NaturalGasPipelinesMap extends React.Component {
             pipelineData: [],
             element: null
         }
+        this.updateData = this.updateData.bind(this);
     }
 
     updateData() {
@@ -45,7 +46,7 @@ export class NaturalGasPipelinesMap extends React.Component {
         // this is necessary as <GeoJSON/> does not redraw on data change.
         // entire element needs to be re-rendered
         this.setState({
-           element: null
+            element: null
         });
         this.updateData();
     }
@@ -54,13 +55,7 @@ export class NaturalGasPipelinesMap extends React.Component {
         let pipelineData = this.state.pipelineData;
         return (
             <div>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
-                {pipelineData && pipelineData.length > 0 &&
-                    this.state.element
-                }
+                {pipelineData && pipelineData.length > 0 && this.state.element}
             </div>
         );
     }

@@ -1,6 +1,6 @@
 import React from "react";
 import '../../App.css';
-import {TileLayer, GeoJSON} from "react-leaflet";
+import {GeoJSON} from "react-leaflet";
 
 const {client} = require('../grpc-client/grpc-querier');
 const {DatasetRequest} = require('../grpc-client/census_pb');
@@ -53,13 +53,8 @@ export class TransmissionLinesMap extends React.Component {
         let transmissionLinesData = this.state.transmissionLinesData;
         return (
             <div>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                />
                 {transmissionLinesData && transmissionLinesData.length > 0 &&
-                this.state.element
-                }
+                this.state.element}
             </div>
         );
     }
