@@ -1,13 +1,13 @@
 export const datasets = [
     {'id': 'hospitals', 'value': "Hospitals"},
-    {'id': 'census', 'value': "Census"},
-    {'id': 'electrical_substations', 'value': "Electrical Substations"},
+    // {'id': 'census', 'value': "Census"},
+    // {'id': 'electrical_substations', 'value': "Electrical Substations"},
     {'id': 'dams', 'value': "Dams"},
     {'id': 'transmission_lines', 'value': "Transmission Lines"},
     {'id': 'natural_gas_pipelines', 'value': "Natural Gas Pipelines"},
-    {'id': 'flood_zones', 'value': "Flood Zones"},
+    // {'id': 'flood_zones', 'value': "Flood Zones"},
     {'id': 'power_plants', 'value': "Power Plants"},
-    {'id': 'osm', 'value': "Open Street Maps"}
+    // {'id': 'osm', 'value': "Open Street Maps"}
 ];
 
 export const census_features = [
