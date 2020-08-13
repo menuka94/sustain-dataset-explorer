@@ -20,10 +20,8 @@ static_resources:
                     - name: local_service
                       domains: ["*"]
                       routes:
-                        - match: { prefix: "/census" }
-                          route: { cluster: TargetedQueryServiceCensus }
                         - match: { prefix: "/" }
-                          route: { cluster: TargetedQueryService }
+                          route: { cluster: gRPCServiceForDatasetExplorer }
                         - match: { prefix: "/for-dataset-explorer" }
                           route: { cluster: gRPCServiceForDatasetExplorer }
                       cors:
@@ -38,21 +36,9 @@ static_resources:
                   - name: envoy.cors
                   - name: envoy.router
   clusters:
-    - name: TargetedQueryService
-      connect_timeout: 0.25s
-      type: logical_dns
-      http2_protocol_options: {}
-      lb_policy: round_robin
-      hosts: [{ socket_address: { address: "lattice-160.cs.colostate.edu", port_value: 9091 }}]
-    - name: TargetedQueryServiceCensus
-      connect_timeout: 0.25s
-      type: logical_dns
-      http2_protocol_options: {}
-      lb_policy: round_robin
-      hosts: [{ socket_address: { address: "lattice-0.cs.colostate.edu", port_value: 50051 }}]
     - name: gRPCServiceForDatasetExplorer
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
-      hosts: [{ socket_address: { address: "lattice-1.cs.colostate.edu", port_value: 50051 }}]
+      hosts: [{ socket_address: { address: 'localhost', port_value: 50051 }}]
